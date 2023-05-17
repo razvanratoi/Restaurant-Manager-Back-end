@@ -18,9 +18,9 @@ public class WaiterCommand : IStaffCommand
 
     public async void Execute(int staffId, int orderId)
     {
-        var order = await _orderRepo.GetById(orderId);
+        var order = await _orderRepo.GetByIdAsync(orderId);
         order.Attach(new EmailSender());
-        var client = await _clientRepo.GetById(order.ClientId);
+        var client = await _clientRepo.GetByIdAsync(order.ClientId);
         var price = GetOrderPrice(order, client);
         var clientPoints = UpdateLoyaltyPoints(client);
         order.Total = price;

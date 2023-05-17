@@ -6,18 +6,20 @@ public class Logger : IObserver
 {
     public void Update(Order order, int kitchenId)
     {
-        using (StreamWriter writer = new StreamWriter("logs.txt", true))
+
+        switch (order.Status)
         {
-            switch(order.Status){
-                case "Pending":
+            case "Pending":
+                using (StreamWriter writer = new StreamWriter("waiter_logs.txt", true))
                     writer.WriteLine($"Waiter {order.WaiterId} took an order from table {order.TableNo} at {order.OrderDate}");
-                    break;
-                case "Finished":
+                break;
+            case "Finished":
+                using (StreamWriter writer = new StreamWriter("kitchen_logs.txt", true))
                     writer.WriteLine($"Kitchen staff {kitchenId} finished order {order.Id}");
-                    break;
-                default: 
-                    break;
-            }
+                break;
+            default:
+                break;
         }
     }
 }
+

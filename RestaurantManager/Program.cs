@@ -46,6 +46,7 @@ builder.Services.AddScoped<IObserver, Logger>();
 builder.Services.AddScoped<IObserver, EmailSender>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<ProductService>();
 
 builder.Services.AddAutoMapper(typeof(UserMapping));
 builder.Services.AddAutoMapper(typeof(OrderMapping));

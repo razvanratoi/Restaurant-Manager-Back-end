@@ -11,5 +11,9 @@ namespace RestaurantManager.Repositories
         {
             _context = context;
         }
+
+        public virtual Client? GetClient(int id){
+            return GetByIdAsync(id).Result;
+        }
     }
 }

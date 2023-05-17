@@ -42,7 +42,7 @@ public class OrderController : ControllerBase
         try
         {
             await _orderService.CreateOrder(order);
-            return Ok();
+            return Created(nameof(CreateOrder), order);
         }
         catch (Exception e)
         {
@@ -57,7 +57,7 @@ public class OrderController : ControllerBase
         try
         {
             _orderService.UpdateOrder(order);
-            return Ok();
+            return Ok($"Order updated successfully: {order}");
         }
         catch (Exception e)
         {
@@ -72,7 +72,8 @@ public class OrderController : ControllerBase
         try
         {
             await _orderService.AddProductToOrder(id, productId);
-            return Ok();
+            var order =  _orderService.GetOrder(id);
+            return Ok(order);
         }
         catch (Exception e)
         {
@@ -87,7 +88,7 @@ public class OrderController : ControllerBase
         try
         {
             _orderService.PayOrder(id);
-            return Ok();
+            return Ok("Order paid successfully");
         }
         catch (Exception e)
         {
@@ -103,7 +104,7 @@ public class OrderController : ControllerBase
         {
             var order = _orderService.GetOrder(id);
             await _orderService.DeleteOrder(order);
-            return Ok();
+            return Ok("Order deleted successfully");
         }
         catch (Exception e)
         {
@@ -118,7 +119,7 @@ public class OrderController : ControllerBase
         try
         {
             await _orderService.FinishOrder(id, HttpContext);
-            return Ok();
+            return Ok("Order finished successfully");
         }
         catch (Exception e)
         {
@@ -126,7 +127,6 @@ public class OrderController : ControllerBase
         }
     }
 
-    //get all products of an order
     [HttpGet("{id}/products")]
     [Authorize(Roles = Roles.Waiter)]
     public IActionResult GetProductsOfOrder(int id)

@@ -24,12 +24,12 @@ public class OrderService
 
     public async Task<Order> CreateOrder(OrderDto orderDto)
     {
-        var client = await _clientRepo.GetById(orderDto.ClientId);
+        var client = await _clientRepo.GetByIdAsync(orderDto.ClientId);
         var products = new List<Product>();
 
         foreach (var productId in orderDto.Products)
         {
-            var product = await _productRepo.GetById(productId);
+            var product = await _productRepo.GetByIdAsync(productId);
             products.Add(product);
         }
 
@@ -50,20 +50,20 @@ public class OrderService
 
     public List<Order> GetOrders()
     {
-        return (List<Order>)_orderRepo.GetAll().Result;
+        return (List<Order>)_orderRepo.GetAll().Result.ToList();
     }
 
     public Order GetOrder(int id)
     {
-        return _orderRepo.GetById(id).Result;
+        return _orderRepo.GetByIdAsync(id).Result;
     }
 
     public async Task<Order> UpdateOrder(Order order)
     {
-        var client = await _clientRepo.GetById(order.ClientId);
+        var client = await _clientRepo.GetByIdAsync(order.ClientId);
         var products = new List<Product>();
         foreach (var product in order.Products)
-            products.Add(await _productRepo.GetById(product.Id));
+            products.Add(await _productRepo.GetByIdAsync(product.Id));
 
         var newOrder = new Order
         {
@@ -100,9 +100,9 @@ public class OrderService
 
     public async Task<Order> AddProductToOrder(int orderId, int productId)
     {
-        var order = await _orderRepo.GetById(orderId);
+        var order = await _orderRepo.GetByIdAsync(orderId);
         order.Status = Status.Pending;
-        var product = await _productRepo.GetById(productId);
+        var product = await _productRepo.GetByIdAsync(productId);
         order.Products.Add(product);
         await _orderRepo.Update(order);
         return order;
@@ -110,7 +110,7 @@ public class OrderService
 
     public List<Product> GetProductsOfOrder(int orderId)
     {
-        var order = _orderRepo.GetById(orderId).Result;
+        var order = _orderRepo.GetByIdAsync(orderId).Result;
         return order.Products;
     }
 

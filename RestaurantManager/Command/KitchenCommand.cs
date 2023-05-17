@@ -15,7 +15,7 @@ public class KitchenCommand : IStaffCommand
 
     public async void Execute(int kitchenStaff, int orderId)
     {
-        var order =  await _orderRepo.GetById(orderId);
+        var order =  await _orderRepo.GetByIdAsync(orderId);
         order.Attach(new Logger());
         order.Status = Status.Finished;
         order.Notify(kitchenStaff);

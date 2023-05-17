@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\razvan\\Desktop\\fac\\3.2\\SD\\RestaurantManager\\RestaurantManager.csproj": {}
+    "C:\\Users\\razvan\\Documents\\GitHub\\SD_Project\\RestaurantManager\\RestaurantManager.csproj": {}
   },
   "projects": {
-    "C:\\Users\\razvan\\Desktop\\fac\\3.2\\SD\\RestaurantManager\\RestaurantManager.csproj": {
+    "C:\\Users\\razvan\\Documents\\GitHub\\SD_Project\\RestaurantManager\\RestaurantManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\razvan\\Desktop\\fac\\3.2\\SD\\RestaurantManager\\RestaurantManager.csproj",
+        "projectUniqueName": "C:\\Users\\razvan\\Documents\\GitHub\\SD_Project\\RestaurantManager\\RestaurantManager.csproj",
         "projectName": "RestaurantManager",
-        "projectPath": "C:\\Users\\razvan\\Desktop\\fac\\3.2\\SD\\RestaurantManager\\RestaurantManager.csproj",
+        "projectPath": "C:\\Users\\razvan\\Documents\\GitHub\\SD_Project\\RestaurantManager\\RestaurantManager.csproj",
         "packagesPath": "C:\\Users\\razvan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\razvan\\Desktop\\fac\\3.2\\SD\\RestaurantManager\\obj\\",
+        "outputPath": "C:\\Users\\razvan\\Documents\\GitHub\\SD_Project\\RestaurantManager\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -97,6 +97,10 @@
             "MimeKit": {
               "target": "Package",
               "version": "[4.0.0, )"
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.18.4, )"
             },
             "NUnit": {
               "target": "Package",

@@ -38,7 +38,7 @@ namespace RestaurantManager.Services
 
         public User? GetById(int id)
         {
-            return _userRepo.GetById(id).Result;
+            return _userRepo.GetByIdAsync(id).Result;
         }
 
         public User Create(User user)
@@ -51,14 +51,14 @@ namespace RestaurantManager.Services
 
         public bool Delete(int id)
         {
-            var user = _userRepo.GetById(id).Result;
+            var user = _userRepo.GetByIdAsync(id).Result;
             if (user == null) return false;
             return _userRepo.Delete(user).Result;
         }
 
         public bool Update(User userParam)
         {
-            var user = _userRepo.GetById(userParam.Id).Result;
+            var user = _userRepo.GetByIdAsync(userParam.Id).Result;
 
             if (user == null) return false;
 
@@ -75,7 +75,7 @@ namespace RestaurantManager.Services
         public async Task<User> GetUserFromToken(HttpContext httpContext)
         {
             var userId = _tokenService.GetUserIdFromToken(httpContext);
-            var userGot = await _userRepo.GetById(userId);
+            var userGot = await _userRepo.GetByIdAsync(userId);
             return userGot;
         }
         

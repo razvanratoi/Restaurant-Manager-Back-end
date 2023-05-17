@@ -55,7 +55,7 @@ public class UserController : ControllerBase
         try
         {
             _userService.Create(user);
-            return Ok();
+            return Created(nameof(Create), user);
         }
         catch (Exception e)
         {
@@ -69,8 +69,8 @@ public class UserController : ControllerBase
     {
         var success = _userService.Delete(id);
         if (!success)
-            return NotFound();
-        return Ok();
+            return NotFound("User not found");
+        return Ok("User deleted successfully");
     }
 
     [Authorize(Roles = Roles.Manager)]
@@ -80,7 +80,7 @@ public class UserController : ControllerBase
         var user = _userService.GetById(id);
 
         if (user == null)
-            return NotFound();
+            return NotFound("User not found");
 
         if (userParam.Email != user.Email)
         {
@@ -92,7 +92,7 @@ public class UserController : ControllerBase
         try
         {
             _userService.Update(user);
-            return Ok();
+            return Ok("User updated successfully");
         }
         catch (Exception e)
         {

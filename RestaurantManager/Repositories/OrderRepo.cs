@@ -22,14 +22,16 @@ namespace RestaurantManager.Repositories
                 .ToListAsync();
         }
 
-        public override async Task<Order?> GetById(int id)
+        public virtual IEnumerable<Order> GetAllAux()
         {
-            var order = await _context.Orders
-                .Include(o => o.Client)
-                .Include(o => o.Products)
-                    .ThenInclude(p => p.Category)
-                .FirstAsync(o => o.Id == id);
-            return order;
+            return GetAll().Result;
+        }
+
+        
+
+        public virtual Order? GetById(int id)
+        {
+            return GetByIdAsync(id).Result;
         }
     }
 }

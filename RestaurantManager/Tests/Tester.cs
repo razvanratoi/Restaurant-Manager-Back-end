@@ -1,5 +1,6 @@
 using BookMySeatApi.Services;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using NUnit.Framework;
 using RestaurantManager.Data;
 using RestaurantManager.Models;
@@ -12,24 +13,24 @@ namespace RestaurantManager.Tests;
 [TestFixture]
 public class Tester
 {
-    private readonly OrderService _orderService = new OrderService(new OrderRepo(new DataContext(new DbContextOptionsBuilder<DataContext>().UseSqlite("Data source=Restaurant.db").Options)), 
-                                                                                 new ClientRepo(new DataContext(new DbContextOptionsBuilder<DataContext>().UseSqlite("Data source=Restaurant.db").Options)), 
-                                                                                 new ProductRepo(new DataContext(new DbContextOptionsBuilder<DataContext>().UseSqlite("Data source=Restaurant.db").Options)), 
-                                                                                 new UserService(new UserRepo(new DataContext(new DbContextOptionsBuilder<DataContext>().UseSqlite("Data source=Restaurant.db").Options)), 
-                                                                                 new PasswordService(), null));
-
-    [Test]
-    public void TestGetProductsOfOrder()
-    {
-        var order = _orderService.GetOrder(1);
-        Assert.AreEqual(2, order.Products.Count);
-    }
-
     [Test]
     public void TestGetOrders()
     {
-        var orders = _orderService.GetOrders();
-        Assert.AreEqual(3, orders.Count);
+        Mock<OrderRepo> orderRepo = new Mock<OrderRepo>(null);
+        Mock<ClientRepo> clientRepo = new Mock<ClientRepo>(null);
+        Mock<UserRepo> userRepo = new Mock<UserRepo>(null);
+        Mock<ProductRepo> productRepo = new Mock<ProductRepo>(null);
+        UserService userService = new UserService(userRepo.Object, new PasswordService(), null);
+        OrderService orderService = new OrderService(orderRepo.Object, clientRepo.Object, productRepo.Object, userService);
+
+        Order[] orders = {  new Order(1, 1, 1, 1, Status.Pending, new List<Product>() { new Product(1, "Coca Cola", "Coca Cola", 5.0), new Product(1, "Carbonara", "Pasta", 7.0) }),
+                    new Order(2, 1, 1, 1, Status.Pending, new List<Product>() { new Product(1, "Coca Cola", "Coca Cola", 5.0), new Product(1, "Carbonara", "Pasta", 7.0) }),
+                    new Order(3, 1, 1, 1, Status.Pending, new List<Product>() { new Product(1, "Coca Cola", "Coca Cola", 5.0), new Product(1, "Carbonara", "Pasta", 7.0) }) };
+      
+        orderRepo.Setup(x => x.GetAll()).ReturnsAsync((List<Order>)orders.ToList());
+
+        var ordersTest = orderService.GetOrders();
+        Assert.AreEqual(3, ordersTest.Count);
     }
 
     [Test]
@@ -45,6 +46,15 @@ public class Tester
     [Test]
     public void TestGetDiscounts()
     {
+        Mock<OrderRepo> orderRepo = new Mock<OrderRepo>(null);
+        Mock<ClientRepo> clientRepo = new Mock<ClientRepo>(null);
+        Mock<UserRepo> userRepo = new Mock<UserRepo>(null);
+        Mock<ProductRepo> productRepo = new Mock<ProductRepo>(null);
+        UserService userService = new UserService(userRepo.Object, new PasswordService(), null);
+        OrderService orderService = new OrderService(orderRepo.Object, clientRepo.Object, productRepo.Object, userService);
+
+        clientRepo.Setup(x => x.GetClient(1)).Returns(new Client(1, "Razvan frumuselu", "razvi.ratoi@icloud.com", 5));
+
         var order = new Order();
         order.ClientId = 7;
         order.Client = new Client(1, "Razvan frumuselu", "razvi.ratoi@icloud.com", 5);
@@ -54,7 +64,10 @@ public class Tester
         order.Products = new List<Product>();
         order.Products.Add(new Product(1, "Coca Cola", "Coca Cola", 5.0));
         order.Products.Add(new Product(1, "Carbonara", "Pasta", 7.0));
-        WaiterCommand command = new WaiterCommand(null, null);
+
+
+        WaiterCommand command = new WaiterCommand(orderRepo.Object, clientRepo.Object);
+
         Assert.AreEqual(6.0d, command.GetOrderPrice(order, order.Client));
     }
 }

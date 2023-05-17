@@ -2,7 +2,7 @@ namespace RestaurantManager.Repositories.Interfaces
 {
     public interface IGenericRepo<T> where T : class
     {
-        Task<T?> GetById(int id);
+        Task<T?> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAll();
 
         Task<bool> Add(T entity);

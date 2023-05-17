@@ -17,6 +17,20 @@ namespace RestaurantManager.Models
         public List<Product> Products { get; set; } = new List<Product>();
         private List<IObserver> observers = new List<IObserver>();
 
+        public Order(int id, int clientId, int waiterId, int tableNo, string status, List<Product> products)
+        {
+            Id = id;
+            ClientId = clientId;
+            WaiterId = waiterId;
+            TableNo = tableNo;
+            Status = status;
+            Products = products;
+        }
+
+        public Order()
+        {
+        }
+
         public void Attach(IObserver observer)
         {
             observers.Add(observer);

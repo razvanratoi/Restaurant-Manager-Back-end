@@ -1,3 +1,5 @@
 Waiter 4 took an order from table 75 at 5/2/2023 11:36:37 PM
 Kitchen staff 3 finished order 2
 Kitchen staff 3 finished order 3
+Waiter 4 took an order from table 75 at 5/10/2023 10:03:54 AM
+Kitchen staff 3 finished order 4
